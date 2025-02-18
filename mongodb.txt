@@ -1,0 +1,66 @@
+############# Mostrar la base de datos donde me encuentro #############
+	- db
+
+############# Mostrar todas las bases de datos #############
+	- show dbs
+
+############# Cambia de base de datos y si no existe la crea #############
+	- use
+
+############# Crear una coleccion #############
+	- db.createCollection("collectionName")
+
+#############Mostrar colecciones #############
+	- show collections
+	
+#Nota: Automaticamente al insertar un documento mongo genera un ObjectId,
+#no es necesario insertar una id como en bases de datos SQL.
+#Nota: Con insertOne tambien se pueden crear las collecciones, si esta no existe la crea.
+
+############# Insertar datos (documento) #############
+	- db.<collecion>.insertOne({id:1, name:"Separando" });
+
+############# Mostrar todos los documentos de una colleccion #############
+	- db.<collection>.find()
+
+############# Insertar multiples documentos #############
+	- db.<Collection>.insertMany([{},{}]);
+
+############# Busquedas basicas #############
+Ejemplos:
+	- db.libros.find({editorial: "Biblio" });
+	- db.libros.find({ autor: "Borges"   });
+######### Operadores en mongo #########
+	- $eq   -> igualdad
+	- $gt   -> mayor que
+	- $gte  -> mayor o igual
+	- $in   -> Buscar un elemento en un array
+	- $lt   -> menor que
+	- $lte  -> menor o igual
+	- $ne   -> todos los elementos que no sean igual
+	- $eq   -> Ninguno de los valores en el array
+	- {<columna>:{<operador>:<valor>}}
+Ejemplos:
+	- db.libros.find({precio: {$gt:25}});
+	- db.libros.find({cantidad: {$lt:5}});
+	- db.libros.find({editorial: {$in:["Biblio", "Planeta"]}}); //<--- Especie de OR
+	
+######### Recuperar un solo documento #########
+- db.libros.findOne({precio: {$ne:20}});
+
+######## Operadores Logicos ########
+	- $and  --->  db.libros.find({precio: {$gt:25}, cantidad: {$lt:15}});      db.libros.find({$and:[ {precio:{$gt: 25}},{cantidad: {$lt:15}}]});
+	- $or   --->  db.libros.find({ $or:[{precio: {$gt:25}}, {cantidad: {$lt:15}}]});
+	- $not
+	- $nor
+	- $exist
+	- $type
+
+Ejemplo de OR Y AND compuestos:
+	- db.libros.find( 
+      { $or: [ 
+	            { $and: [{ precio: { $gt: 30 } }, { editorial: { $eq: 'Biblio' } }] },
+   		        { $and: [ {precio: {$gt: 20}},{editorial: {$eq: 'Planeta'}} ] }
+			  ] 
+      }
+	  );
