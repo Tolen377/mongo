@@ -64,3 +64,45 @@ Ejemplo de OR Y AND compuestos:
 			  ] 
       }
 	  );
+	  
+####### Ver ciertas columnas o key-value #######
+	- db.libros.find({},{titulo:1}); 
+
+####### Operador $exist #######
+	Ejemplos:
+	- db.libros.find({titulo:{$exists:true}});
+	- db.libros.find({isbn:{$exists:true}});
+	- db.libros.find({autor:{$exists:true}});
+
+####### Operador $type #######
+	Ejemplos:
+	- db.libros.find({precio:{$type:'double'}});
+	- db.libros.find({precio:{$type:'int'}});
+	
+#### Mongo import ####
+mongoimport --db curso --collection empleados --file empleados.json
+
+########### Modificacion de documentos ###########
+
+### Operador set ###
+Ejemplos
+	- db.libros.updateOne({titulo: 'Python para torpes'}, {$set:{titulo:'Java para todos'}});
+	- db.logs.updateOne( {trakingId: 20250305081712}, {$set: {startDate: '2025-03-05 08:20:45', endDate: '2025-03-05 08:20:4'}});
+	#Nota: si la etiqueta ni existe la agrega he inserta el valor proporcionado en la query
+
+### Modificar multiples documentos ###
+Ejemplos:
+	- db.libros.updateMany({precio: {$gt:100}}, {$set: {precio:100}});
+	
+#### Operadores $inc y $mul ####
+ $inc: Incrementa el valor de una etiqueta
+ Ejemplo: db.libros.updateMany({}, {$inc: {precio:5}});  <-- Incrementa en 5 el valor del precio, el filtro {} quiere decir todos los libros
+
+ $mul: multiplica un valor de la etiqueta especificada
+ Ejemplo: db.libros.updateMany({cantidad:{$gt:20}}, {$mul: {cantidad:2}});
+ 
+ 
+#### Remplazar documentos ####
+Ejemplo
+	-  db.logs.replaceOne({trakingId: 20250305081712}, {job: 'PRDS.01', status:8, startDate: '2025-03-07 11:59:12', endDate: '2025-03-07 13:25:56'});
+
